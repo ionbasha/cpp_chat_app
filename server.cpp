@@ -44,10 +44,23 @@ int main() {
     std::string msg = "Message received!";
     send(client_connection_socket, msg.c_str(), msg.size(), 0);
 
-    char read_buffer[1024];
-    read(client_connection_socket, read_buffer, sizeof(read_buffer));
+    char read_buffer[1024] = {0};
 
-    std::cout << client_connection_socket << ": " << read_buffer << std::endl;
+    while(1) {
+        int num_bytes_read = recv(client_connection_socket, read_buffer, sizeof(read_buffer), 0);
+        if (num_bytes_read > 0) {
+            std::cout << "Client " << client_connection_socket << ": " << std::string(read_buffer, num_bytes_read) << std::endl;
+        }
+        else if (num_bytes_read == 0) {
+            std::cout << "Client disconnected, exiting..." << std::endl;
+            break;
+        }
+        else {
+            std::cerr << "Error reading from client, exiting..." << std::endl;
+            break;
+        }
+    }
+    
 
 
     close(server_fd);
