@@ -24,7 +24,7 @@ int main() {
         std::cerr << "Could not connect to server" << std::endl;
         exit(0);
     }
-    std::cout << "Connection successful" << std::endl;
+    std::cout << "Connection successful." << std::endl;
 
     std::string input;
 
