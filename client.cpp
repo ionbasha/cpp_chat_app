@@ -30,6 +30,9 @@ int main() {
 
     while(1) {
         std::getline(std::cin, input);
+        if (input == "quit()") {
+            break;
+        }
         if (!input.empty()) {
             int bytes_sent = send(client_fd, input.c_str(), input.size(), 0);
             if(bytes_sent < 0) {

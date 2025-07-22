@@ -1,14 +1,18 @@
 CC = g++
-CFLAGS = -Wall -g
+CFLAGS = -Wall -g -pthread -std=c++11
 
 client: client.o
-	$(CC) client.o -o client
+	$(CC) $(CFLAGS) client.o -o client
 
 server: server.o
-	$(CC) server.o -o server
+	$(CC) $(CFLAGS) server.o -o server
 
 client.o: client.cpp
-	$(CC) -c client.cpp
+	$(CC) $(CFLAGS) -c client.cpp
 
 server.o: server.cpp
-	$(CC) -c server.cpp
+	$(CC) $(CFLAGS) -c server.cpp
+
+clean:
+	rm -f server server.o
+	rm -f client client.o
