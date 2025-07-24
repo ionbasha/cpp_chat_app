@@ -5,9 +5,31 @@
 #include <unistd.h>
 
 
+// void handle_server_read(int client_fd) {
+//     char buffer[1024] = {0};
+
+//     while(1) {
+//         int num_bytes_read = recv(client_fd, buffer, sizeof(buffer), 0);
+//         if (num_bytes_read > 0) {
+//             std::cout << "Client " << client_fd << ": " << std::string(buffer, num_bytes_read) << std::endl;
+//         }
+//         else if (num_bytes_read == 0) {
+//             std::cout << "Client " << client_fd << " disconnected" << std::endl;
+//             break;
+//         }
+//         else {
+//             std::cerr << "Error reading from client, exiting..." << std::endl;
+//             break;
+//         }
+//     }
+//     close(client_fd);
+// }
+
+
 int main() {
     int client_fd = socket(AF_INET, SOCK_STREAM, 0);
     int portNumber = 3000;
+
     if (client_fd < 0) {
         std::cerr << "Could not create socket. Please try again.";
         exit(0);
@@ -44,8 +66,4 @@ int main() {
 
     close(client_fd);
     return 0;
-
-
-
-    
 }
