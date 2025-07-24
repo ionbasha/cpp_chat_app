@@ -11,7 +11,15 @@ void handle_client(int client_socket, std::vector<int>& client_fds) {
     while(1) {
         int num_bytes_read = recv(client_socket, buffer, sizeof(buffer), 0);
         if (num_bytes_read > 0) {
-            std::cout << "Client " << client_socket << ": " << std::string(buffer, num_bytes_read) << std::endl;
+            std::string msg = "Client " + std::to_string(client_socket) + ": ";
+            msg += std::string(buffer, num_bytes_read);
+            for(int fd : client_fds) {
+                int bytes_sent = send(fd, msg.c_str(), msg.size(), 0);
+                if(bytes_sent < 0) {
+                    std::cerr << "Could not send request to server" << std::endl;
+                    break;
+                }
+            }   
         }
         else if (num_bytes_read == 0) {
             client_fds.erase(std::remove(client_fds.begin(), client_fds.end(), client_socket), client_fds.end());
@@ -22,9 +30,9 @@ void handle_client(int client_socket, std::vector<int>& client_fds) {
             std::cerr << "Error reading from client, exiting..." << std::endl;
             break;
         }
-        for(int i : client_fds) { // TESTING: REMOVE LATER
-            std::cout << i << std::endl;
-        }
+        // for(int i : client_fds) { // TESTING: REMOVE LATER
+        //     std::cout << i << std::endl;
+        // }
     }
     close(client_socket);
 }
