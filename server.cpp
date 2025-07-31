@@ -23,16 +23,13 @@ void handle_client(int client_socket, std::vector<int>& client_fds) {
         }
         else if (num_bytes_read == 0) {
             client_fds.erase(std::remove(client_fds.begin(), client_fds.end(), client_socket), client_fds.end());
-            std::cout << "Client" << client_socket << " disconnected" << std::endl;
+            std::cout << "Client " << client_socket << " disconnected" << std::endl;
             break;
         }
         else {
             std::cerr << "Error reading from client, exiting..." << std::endl;
             break;
         }
-        // for(int i : client_fds) { // TESTING: REMOVE LATER
-        //     std::cout << i << std::endl;
-        // }
     }
     close(client_socket);
 }
@@ -77,6 +74,7 @@ int main() {
             exit(0);
         }
 
+        // client_fd_list: vector that tracks client id's of clients currently connected to server
         client_fd_list.push_back(client_connection_socket);
 
         std::thread client_message_thread([client_connection_socket, &client_fd_list]() { // Handle client messages in a background thread

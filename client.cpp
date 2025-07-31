@@ -54,6 +54,7 @@ int main() {
     });
     server_read_thread.detach();
 
+    // Read user input
     std::string input;
     while(1) {
         std::getline(std::cin, input);
